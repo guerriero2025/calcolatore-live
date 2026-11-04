@@ -45,6 +45,3 @@ def main(page: ft.Page):
         page.add(ft.Text(f"Crash avvio: {startup_error}", size=16, color="red"))
     
     page.update()
-
-if __name__ == "__main__":
-    ft.app(target=main)
