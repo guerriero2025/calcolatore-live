@@ -22,6 +22,7 @@ jobs:
         with:
           flutter-version: '3.19.x'
           channel: 'stable'
+          android: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
