@@ -1,56 +1,67 @@
 import flet as ft
 
 def main(page: ft.Page):
-    page.title = "Calcolatrice"
+    page.title = "Calcolatorebetting"
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.padding = 20
-    page.window.width = 350
-    page.window.height = 550
 
-    result = ft.Text(
-        value="0", size=36, weight=ft.FontWeight.BOLD,
-        text_align=ft.TextAlign.RIGHT, expand=True, no_wrap=True
-    )
-    
-    display = ft.Container(
-        content=result, bgcolor="#f0f0f0", padding=20,
-        border_radius=10, expand=True, alignment=ft.alignment.center_right
-    )
+    display = ft.Text(value="0", size=40, weight=ft.FontWeight.BOLD)
 
     def button_clicked(e):
         data = e.control.text
         if data == "C":
-            result.value = "0"
-        elif data == "⌫":
-            result.value = result.value[:-1] if len(result.value) > 1 else "0"
+            display.value = "0"
         elif data == "=":
             try:
-                result.value = str(eval(result.value))
+                display.value = str(eval(display.value))
             except Exception:
-                result.value = "Errore"
+                display.value = "Errore"
         else:
-            if result.value in ("0", "Errore"):
-                result.value = data
+            if display.value == "0" or display.value == "Errore":
+                display.value = data
             else:
-                result.value += data
+                display.value += data
         page.update()
 
     btn_rows = [
-        ["C", "⌫", "/", "*"],
-        ["7", "8", "9", "-"],
-        ["4", "5", "6", "+"],
-        ["1", "2", "3", "="],
-        ["0", ".", "", ""]
+        ["7", "8", "9", "/"],
+        ["4", "5", "6", "*"],
+        ["1", "2", "3", "-"],
+        ["C", "0", "=", "+"]
     ]
 
-    controls = [display]
+    controls = [
+        ft.Container(
+            content=display,
+            alignment=ft.alignment.center,
+            padding=10
+        )
+    ]
+
     for row in btn_rows:
         row_controls = [
-            ft.ElevatedButton(text=btn, expand=True, height=60, on_click=button_clicked)
-            for btn in row if btn != ""
+            ft.ElevatedButton(
+                text=btn, 
+                width=70, 
+                height=70, 
+                on_click=button_clicked
+            )
+            for btn in row
         ]
-        controls.append(ft.Row(row_controls, spacing=10, expand=True))
+        controls.append(
+            ft.Row(
+                row_controls, 
+                alignment=ft.MainAxisAlignment.CENTER,
+                spacing=10
+            )
+        )
 
-    page.add(ft.Column(controls, spacing=10, expand=True))
-
-if __name__ == "__main__":
-    ft.app(target=main)
+    page.add(
+        ft.Column(
+            controls,
+            alignment=ft.MainAxisAlignment.CENTER,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            spacing=10
+        )
+    )
