@@ -6,29 +6,27 @@ def main(page: ft.Page):
         page.vertical_alignment = ft.MainAxisAlignment.CENTER
         page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
-        # Display del risultato
         display = ft.Text(value="0", size=36, weight=ft.FontWeight.BOLD)
 
         def button_clicked(e):
-            data = e.control.text
-            if data == "C":
-                display.value = "0"
-            elif data == "=":
-                try:
+            try:
+                data = e.control.text
+                if data == "C":
+                    display.value = "0"
+                elif data == "=":
                     display.value = str(eval(display.value))
-                except Exception:
-                    display.value = "Errore"
-            else:
-                if display.value == "0" or display.value == "Errore":
-                    display.value = data
                 else:
-                    display.value += data
-            page.update()
+                    if display.value == "0" or display.value == "Errore":
+                        display.value = data
+                    else:
+                        display.value += data
+                page.update()
+            except Exception as ex:
+                display.value = "Errore"
+                page.update()
 
-        # Aggiungiamo il display alla pagina
         page.add(display)
 
-        # Griglia dei pulsanti
         btn_rows = [
             ["7", "8", "9", "/"],
             ["4", "5", "6", "*"],
@@ -43,8 +41,10 @@ def main(page: ft.Page):
             ]
             page.add(ft.Row(row_controls, alignment=ft.MainAxisAlignment.CENTER, spacing=10))
 
-    except Exception as ex:
-        # Se si verifica un errore all'avvio, lo mostra sullo schermo anziché crashare
-        page.add(ft.Text(f"Errore: {ex}", size=20, color="red"))
-
+    except Exception as startup_error:
+        page.add(ft.Text(f"Crash avvio: {startup_error}", size=16, color="red"))
+    
     page.update()
+
+if __name__ == "__main__":
+    ft.app(target=main)
