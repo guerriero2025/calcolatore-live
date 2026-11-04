@@ -15,7 +15,6 @@ def main(page: ft.Page):
             result.value = "0"
         elif data == "=":
             try:
-                # Esegue il calcolo in modo sicuro per la calcolatrice base
                 result.value = str(eval(result.value))
             except Exception:
                 result.value = "Errore"
@@ -49,6 +48,3 @@ def main(page: ft.Page):
             spacing=10
         )
     )
-
-if __name__ == "__main__":
-    ft.app(target=main)
