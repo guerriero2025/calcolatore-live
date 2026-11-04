@@ -34,7 +34,7 @@ jobs:
           pip install flet
 
       - name: Accept Android licenses
-        run: flutter doctor --android-licenses || true
+        run: yes "y" | flutter doctor --android-licenses || true
 
       - name: Build APK with Flet
         run: flet build apk
